@@ -1,0 +1,59 @@
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
+using SchoolProject.Core.Bases;
+using SchoolProject.Core.Features.ApplicationUser.Commands.Models;
+using SchoolProject.Core.Resources;
+using SchoolProject.Data.Entities.Identity;
+
+namespace SchoolProject.Core.Features.ApplicationUser.Commands.Handlers
+{
+    public class UserCommandHandler : ResponseHandler,
+        IRequestHandler<AddUserCommand, Response<string>>
+    {
+        #region Fields
+        private readonly IStringLocalizer<SharedResources> stringLocalizer;
+        private readonly IMapper mapper;
+        private readonly UserManager<User> userManager;
+        #endregion
+
+        #region Constructor
+        public UserCommandHandler(IStringLocalizer<SharedResources> stringLocalizer,
+            IMapper mapper, UserManager<User> userManager) : base(stringLocalizer)
+        {
+            this.stringLocalizer = stringLocalizer;
+            this.mapper = mapper;
+            this.userManager = userManager;
+        }
+        #endregion
+
+        #region Fields
+        public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        {
+            //Check Email
+            var user = await userManager.FindByEmailAsync(request.Email);
+            if (user != null) return BadRequest<string>(stringLocalizer[SharedResourcesKeys.EmailIsExist]);
+
+            //Check Username
+            var userByUsername = await userManager.FindByNameAsync(request.UserName);
+            if (userByUsername != null) return BadRequest<string>(stringLocalizer[SharedResourcesKeys.UserNameIsExist]);
+
+            //Mapping
+            var userMapper = mapper.Map<User>(request);
+
+            //Create
+            var createResult = await userManager.CreateAsync(userMapper, request.Password);
+
+            //Failed
+            if (!createResult.Succeeded)
+            {
+                return BadRequest<string>(createResult.Errors.FirstOrDefault().Description);
+            }
+
+            //Success
+            return Created("");
+        }
+        #endregion
+    }
+}
