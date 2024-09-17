@@ -28,7 +28,7 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Handlers
         }
         #endregion
 
-        #region Fields
+        #region Functions
         public async Task<Response<string>> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
             //Check Email

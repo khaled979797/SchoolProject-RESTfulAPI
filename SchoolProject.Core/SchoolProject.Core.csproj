@@ -26,12 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\ApplicationUser\Queries\Handlers\" />
-    <Folder Include="Features\ApplicationUser\Queries\Models\" />
     <Folder Include="Features\Department\Commands\Handlers\" />
     <Folder Include="Features\Department\Commands\Models\" />
     <Folder Include="Features\Department\Commands\Validators\" />
-    <Folder Include="Mapping\ApplicationUser\QueryMapping\" />
     <Folder Include="Mapping\Departments\CommandMapping\" />
   </ItemGroup>
 

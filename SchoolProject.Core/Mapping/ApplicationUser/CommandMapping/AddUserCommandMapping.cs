@@ -5,7 +5,7 @@ namespace SchoolProject.Core.Mapping.ApplicationUser
 {
     public partial class ApplicationUserProfile
     {
-        public void AddUserMapping()
+        public void AddUserCommandMapping()
         {
             CreateMap<AddUserCommand, User>();
         }
