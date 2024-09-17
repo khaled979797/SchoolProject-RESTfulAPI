@@ -68,7 +68,6 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Handlers
             //Result
             if (!result.Succeeded) return BadRequest<string>(stringLocalizer[SharedResourcesKeys.UpdateFailed]);
             else return Success(stringLocalizer[SharedResourcesKeys.Updated].ToString());
-
         }
         #endregion
     }
