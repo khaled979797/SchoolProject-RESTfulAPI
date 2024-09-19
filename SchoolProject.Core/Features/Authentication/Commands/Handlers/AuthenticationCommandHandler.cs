@@ -5,12 +5,13 @@ using SchoolProject.Core.Bases;
 using SchoolProject.Core.Features.Authentication.Commands.Models;
 using SchoolProject.Core.Resources;
 using SchoolProject.Data.Entities.Identity;
+using SchoolProject.Data.Helpers;
 using SchoolProject.Service.Abstracts;
 
 namespace SchoolProject.Core.Features.Authentication.Commands.Handlers
 {
     public class AuthenticationCommandHandler : ResponseHandler,
-        IRequestHandler<SignInCommand, Response<string>>
+        IRequestHandler<SignInCommand, Response<JwtAuthResult>>
     {
         #region Fields
         private readonly IStringLocalizer<SharedResources> stringLocalizer;
@@ -32,19 +33,19 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Handlers
         #endregion
 
         #region Functions
-        public async Task<Response<string>> Handle(SignInCommand request, CancellationToken cancellationToken)
+        public async Task<Response<JwtAuthResult>> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
             //Check If User Exist
             var user = await userManager.FindByNameAsync(request.UserName);
-            if (user == null) return NotFound<string>(stringLocalizer[SharedResourcesKeys.UserNameIsNotExist]);
+            if (user == null) return NotFound<JwtAuthResult>(stringLocalizer[SharedResourcesKeys.UserNameIsNotExist]);
 
             //Check If Password Correct
             var signInResult = await signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-            if (!signInResult.Succeeded) return BadRequest<string>(stringLocalizer[SharedResourcesKeys.PasswordNotCorrect]);
+            if (!signInResult.Succeeded) return BadRequest<JwtAuthResult>(stringLocalizer[SharedResourcesKeys.PasswordNotCorrect]);
 
             //Generate Token
-            var accessToken = await authenticationService.GetJwtToken(user);
-            return Success<string>(accessToken);
+            var result = await authenticationService.GetJwtToken(user);
+            return Success<JwtAuthResult>(result);
         }
         #endregion
 
