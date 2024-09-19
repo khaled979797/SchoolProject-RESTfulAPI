@@ -15,6 +15,8 @@ namespace SchoolProject.Infrastructure.Data
         public DbSet<StudentSubject> StudentSubjects { get; set; }
         public DbSet<DepartmetSubject> DepartmetSubjects { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<UserRefreshToken> UsersRefreshTokens { get; set; }
+
 
         public AppDbContext() { }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
