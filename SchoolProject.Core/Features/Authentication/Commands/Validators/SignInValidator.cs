@@ -16,7 +16,6 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Validators
         {
             this.stringLocalizer = stringLocalizer;
             ApplyValidationsRules();
-            ApplyCustomValidationsRules();
         }
         #endregion
 
@@ -30,12 +29,6 @@ namespace SchoolProject.Core.Features.Authentication.Commands.Validators
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage(stringLocalizer[SharedResourcesKeys.NotEmpty])
                 .NotNull().WithMessage(stringLocalizer[SharedResourcesKeys.Required]);
-        }
-
-        public void ApplyCustomValidationsRules()
-        {
-
-
         }
         #endregion
     }

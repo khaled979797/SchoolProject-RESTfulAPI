@@ -16,7 +16,6 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Validators
         {
             this.stringLocalizer = stringLocalizer;
             ApplyValidationsRules();
-            ApplyCustomValidationsRules();
         }
         #endregion
 
@@ -36,11 +35,6 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Validators
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage(stringLocalizer[SharedResourcesKeys.NotEmpty])
                 .NotNull().WithMessage(stringLocalizer[SharedResourcesKeys.Required]);
-        }
-
-        public void ApplyCustomValidationsRules()
-        {
-
         }
         #endregion
     }

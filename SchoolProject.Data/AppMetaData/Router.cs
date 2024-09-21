@@ -32,7 +32,6 @@
         public static class UserRouting
         {
             public const string Prefix = Rule + "User";
-            public const string List = Prefix + "/List";
             public const string GetById = Prefix + SingleRoute;
             public const string Create = Prefix + "/Create";
             public const string Edit = Prefix + "/Edit";
@@ -47,6 +46,12 @@
             public const string SignIn = Prefix + "/SignIn";
             public const string RefreshToken = Prefix + "/RefreshToken";
             public const string ValidateToken = Prefix + "/ValidateToken";
+        }
+
+        public static class AuthorizationRouting
+        {
+            public const string Prefix = Rule + "Authorization";
+            public const string CreateRole = Prefix + "/Role/Create";
         }
     }
 }
