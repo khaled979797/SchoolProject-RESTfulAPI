@@ -16,7 +16,6 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Validators
         {
             this.stringLocalizer = stringLocalizer;
             ApplyValidationsRules();
-            ApplyCustomValidationsRules();
         }
         #endregion
 
@@ -43,11 +42,6 @@ namespace SchoolProject.Core.Features.ApplicationUser.Commands.Validators
 
             RuleFor(x => x.ConfirmPassword)
                 .Equal(x => x.Password).WithMessage(stringLocalizer[SharedResourcesKeys.PasswordNotEqualConfirmPass]);
-        }
-
-        public void ApplyCustomValidationsRules()
-        {
-
         }
         #endregion
     }
