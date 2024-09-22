@@ -6,7 +6,7 @@ using SchoolProject.Service.Abstracts;
 
 namespace SchoolProject.Core.Features.Authorization.Commands.Validators
 {
-    public class AddRoleValidator : AbstractValidator<AddRoleCommand>
+    public class EditRoleValidator : AbstractValidator<EditRoleCommand>
     {
         #region Fields
         private readonly IStringLocalizer<SharedResources> stringLocalizer;
@@ -14,7 +14,7 @@ namespace SchoolProject.Core.Features.Authorization.Commands.Validators
         #endregion
 
         #region Constructors
-        public AddRoleValidator(IStringLocalizer<SharedResources> stringLocalizer,
+        public EditRoleValidator(IStringLocalizer<SharedResources> stringLocalizer,
             IAuthorizationService authorizationService)
         {
             this.stringLocalizer = stringLocalizer;
@@ -27,14 +27,18 @@ namespace SchoolProject.Core.Features.Authorization.Commands.Validators
         #region Functions
         public void ApplyValidationsRules()
         {
-            RuleFor(x => x.RoleName)
+            RuleFor(x => x.Id)
+                 .NotEmpty().WithMessage(stringLocalizer[SharedResourcesKeys.NotEmpty])
+                 .NotNull().WithMessage(stringLocalizer[SharedResourcesKeys.Required]);
+
+            RuleFor(x => x.Name)
                  .NotEmpty().WithMessage(stringLocalizer[SharedResourcesKeys.NotEmpty])
                  .NotNull().WithMessage(stringLocalizer[SharedResourcesKeys.Required]);
         }
 
         public void ApplyCustomValidationsRules()
         {
-            RuleFor(x => x.RoleName)
+            RuleFor(x => x.Name)
                 .MustAsync(async (Key, CancellationToken) => !await authorizationService.IsRoleExistByName(Key))
                 .WithMessage(stringLocalizer[SharedResourcesKeys.RoleIsUsed]);
         }

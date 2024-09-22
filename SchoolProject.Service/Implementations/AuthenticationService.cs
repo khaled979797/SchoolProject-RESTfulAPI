@@ -31,15 +31,22 @@ namespace SchoolProject.Service.Implementations
         #endregion
 
         #region Functions
-        private List<Claim> GetClaims(User user)
+        private List<Claim> GetClaims(User user, IList<string> roles)
         {
-            return new List<Claim>
+            var claims = new List<Claim>
             {
                 new Claim(nameof(UserClaimModel.Id), user.Id.ToString()),
-                new Claim(nameof(UserClaimModel.UserName), user.UserName),
-                new Claim(nameof(UserClaimModel.Email), user.Email),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(nameof(UserClaimModel.PhoneNumber), user.PhoneNumber)
             };
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            return claims;
         }
 
         private SigningCredentials GetSigningCredentials()
@@ -48,13 +55,14 @@ namespace SchoolProject.Service.Implementations
             return new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
         }
 
-        private (JwtSecurityToken, string) GenerateJwtToken(User user)
+        private async Task<(JwtSecurityToken, string)> GenerateJwtToken(User user)
         {
+            var roles = await userManager.GetRolesAsync(user);
             var jwtToken = new JwtSecurityToken
             (
                 issuer: jwtSettings.Issuer,
                 audience: jwtSettings.Audience,
-                claims: GetClaims(user),
+                claims: GetClaims(user, roles),
                 expires: DateTime.Now.AddDays(jwtSettings.AccessTokenExpireDate),
                 signingCredentials: GetSigningCredentials()
             );
@@ -89,7 +97,7 @@ namespace SchoolProject.Service.Implementations
 
         public async Task<JwtAuthResult> GetJwtToken(User user)
         {
-            var (jwtToken, accessToken) = GenerateJwtToken(user);
+            var (jwtToken, accessToken) = await GenerateJwtToken(user);
 
             var userRefreshToken = new UserRefreshToken
             {
@@ -113,7 +121,7 @@ namespace SchoolProject.Service.Implementations
 
         public async Task<JwtAuthResult> GetRefreshToken(User user, JwtSecurityToken jwtToken, string refreshToken, DateTime? expireDate)
         {
-            var (jwtSecurityToken, newAccessToken) = GenerateJwtToken(user);
+            var (jwtSecurityToken, newAccessToken) = await GenerateJwtToken(user);
 
             var refreshTokenResult = new RefreshToken
             {
