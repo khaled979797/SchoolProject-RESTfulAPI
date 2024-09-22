@@ -52,6 +52,8 @@
         {
             public const string Prefix = Rule + "Authorization";
             public const string CreateRole = Prefix + "/Role/Create";
+            public const string EditRole = Prefix + "/Role/Edit";
+            public const string DeleteRole = Prefix + "/Role" + SingleRoute;
         }
     }
 }
