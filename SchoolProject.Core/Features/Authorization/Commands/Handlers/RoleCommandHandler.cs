@@ -10,7 +10,8 @@ namespace SchoolProject.Core.Features.Authorization.Commands.Handlers
     public class RoleCommandHandler : ResponseHandler,
         IRequestHandler<AddRoleCommand, Response<string>>,
         IRequestHandler<EditRoleCommand, Response<string>>,
-        IRequestHandler<DeleteRoleCommand, Response<string>>
+        IRequestHandler<DeleteRoleCommand, Response<string>>,
+        IRequestHandler<EditUserRolesCommand, Response<string>>
     {
         #region Fields
         private readonly IStringLocalizer<SharedResources> stringLocalizer;
@@ -50,6 +51,19 @@ namespace SchoolProject.Core.Features.Authorization.Commands.Handlers
             else if (result == "Used") return BadRequest<string>(stringLocalizer[SharedResourcesKeys.RoleIsUsed]);
             else if (result == "Success") return Success<string>(stringLocalizer[SharedResourcesKeys.Deleted]);
             return BadRequest<string>(result);
+        }
+
+        public async Task<Response<string>> Handle(EditUserRolesCommand request, CancellationToken cancellationToken)
+        {
+            var result = await authorizationService.UpdateUserRoles(request);
+            switch (result)
+            {
+                case "UserNotFound": return NotFound<string>(stringLocalizer[SharedResourcesKeys.UserIsNotFound]);
+                case "FailedToRemoveOldRoles": return BadRequest<string>(stringLocalizer[SharedResourcesKeys.FailedToRemoveOldRoles]);
+                case "FailedToAddNewRoles": return BadRequest<string>(stringLocalizer[SharedResourcesKeys.FailedToAddNewRoles]);
+                case "FailedToUpdateUserRoles": return BadRequest<string>(stringLocalizer[SharedResourcesKeys.FailedToUpdateUserRoles]);
+            }
+            return Success(result);
         }
         #endregion
     }

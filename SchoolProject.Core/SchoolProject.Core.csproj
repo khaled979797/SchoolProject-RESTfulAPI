@@ -8,8 +8,11 @@
 
   <ItemGroup>
     <Compile Remove="Features\User\**" />
+    <Compile Remove="Mapping\Authorization\**" />
     <EmbeddedResource Remove="Features\User\**" />
+    <EmbeddedResource Remove="Mapping\Authorization\**" />
     <None Remove="Features\User\**" />
+    <None Remove="Mapping\Authorization\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,9 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Authorization\Queries\Handlers\" />
-    <Folder Include="Features\Authorization\Queries\Models\" />
-    <Folder Include="Features\Authorization\Queries\Responses\" />
     <Folder Include="Features\Department\Commands\Handlers\" />
     <Folder Include="Features\Department\Commands\Models\" />
     <Folder Include="Features\Department\Commands\Validators\" />
