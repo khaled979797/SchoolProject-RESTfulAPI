@@ -51,13 +51,17 @@
         public static class AuthorizationRouting
         {
             public const string Prefix = Rule + "Authorization";
-            public const string CreateRole = Prefix + "/Role/Create";
-            public const string EditRole = Prefix + "/Role/Edit";
-            public const string DeleteRole = Prefix + "/Role" + SingleRoute;
-            public const string RoleList = Prefix + "/Role/List";
-            public const string GetRoleById = Prefix + "/Role" + SingleRoute;
-            public const string ManageUserRoles = Prefix + "/ManageUserRoles" + "/{userId}";
-            public const string EditUserRoles = Prefix + "/EditUserRoles";
+            public const string Role = Prefix + "/Role";
+            public const string Claim = Prefix + "/Claim";
+            public const string CreateRole = Role + "/Create";
+            public const string EditRole = Role + "/Edit";
+            public const string DeleteRole = Role + SingleRoute;
+            public const string RoleList = Role + "/List";
+            public const string GetRoleById = Role + SingleRoute;
+            public const string ManageUserRoles = Role + "/ManageUserRoles" + "/{userId}";
+            public const string EditUserRoles = Role + "/EditUserRoles";
+            public const string ManageUserClaims = Claim + "/ManageUserClaims" + "/{userId}";
+            public const string EditUserClaims = Claim + "/EditUserClaims";
         }
     }
 }

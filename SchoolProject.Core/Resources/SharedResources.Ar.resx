@@ -171,7 +171,7 @@
   <data name="FailedToRemoveOldRoles" xml:space="preserve">
     <value>فشلت عملية حذف الصلاحيات القديمة</value>
   </data>
-  <data name="FailedToUpdateClaims" xml:space="preserve">
+  <data name="FailedToUpdateUserClaims" xml:space="preserve">
     <value>حدث حطأ اثناء تحديث صلاحيات الاستخدام للمستخدمين</value>
   </data>
   <data name="FailedToUpdateUserRoles" xml:space="preserve">

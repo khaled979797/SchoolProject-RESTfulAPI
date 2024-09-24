@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Helpers;
+using SchoolProject.Data.Responses;
 using SchoolProject.Infrastructure.Abstracts;
 using SchoolProject.Service.Abstracts;
 using System.IdentityModel.Tokens.Jwt;
@@ -95,7 +96,7 @@ namespace SchoolProject.Service.Implementations
             return handler.ReadJwtToken(accessToken);
         }
 
-        public async Task<JwtAuthResult> GetJwtToken(User user)
+        public async Task<JwtAuthResponse> GetJwtToken(User user)
         {
             var (jwtToken, accessToken) = await GenerateJwtToken(user);
 
@@ -112,14 +113,14 @@ namespace SchoolProject.Service.Implementations
             };
             await refreshTokenRepository.AddAsync(userRefreshToken);
 
-            return new JwtAuthResult
+            return new JwtAuthResponse
             {
                 AccessToken = accessToken,
                 RefreshToken = GetRefreshToken(user.UserName)
             };
         }
 
-        public async Task<JwtAuthResult> GetRefreshToken(User user, JwtSecurityToken jwtToken, string refreshToken, DateTime? expireDate)
+        public async Task<JwtAuthResponse> GetRefreshToken(User user, JwtSecurityToken jwtToken, string refreshToken, DateTime? expireDate)
         {
             var (jwtSecurityToken, newAccessToken) = await GenerateJwtToken(user);
 
@@ -130,7 +131,7 @@ namespace SchoolProject.Service.Implementations
                 ExpireAt = Convert.ToDateTime(expireDate),
             };
 
-            return new JwtAuthResult
+            return new JwtAuthResponse
             {
                 AccessToken = newAccessToken,
                 RefreshToken = refreshTokenResult

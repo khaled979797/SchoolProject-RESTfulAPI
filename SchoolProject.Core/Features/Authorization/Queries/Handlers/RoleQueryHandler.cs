@@ -56,7 +56,7 @@ namespace SchoolProject.Core.Features.Authorization.Queries.Handlers
         {
             var user = await userManager.FindByIdAsync(request.UserId.ToString());
             if (user == null) return NotFound<ManageUserRolesResponse>(stringLocalizer[SharedResourcesKeys.UserIsNotFound]);
-            var result = await authorizationService.GetManageUserRolesData(user);
+            var result = await authorizationService.ManageUserRolesData(user);
             return Success(result);
         }
         #endregion

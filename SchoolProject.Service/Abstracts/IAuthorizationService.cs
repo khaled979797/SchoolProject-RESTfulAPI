@@ -12,7 +12,9 @@ namespace SchoolProject.Service.Abstracts
         public Task<string> DeleteRoleAsync(int roleId);
         public Task<List<Role>> GetRolesList();
         public Task<Role> GetRoleById(int id);
-        public Task<ManageUserRolesResponse> GetManageUserRolesData(User user);
+        public Task<ManageUserRolesResponse> ManageUserRolesData(User user);
         public Task<string> UpdateUserRoles(EditUserRolesRequest request);
+        public Task<ManagerUserClaimsResponse> ManageUserClaimsData(User user);
+        public Task<string> UpdateUserClaims(EditUserClaimsRequest request);
     }
 }
