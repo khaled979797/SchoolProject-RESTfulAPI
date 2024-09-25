@@ -32,7 +32,7 @@ namespace SchoolProject.Service.Implementations
         #endregion
 
         #region Functions
-        private List<Claim> GetClaims(User user, IList<string> roles)
+        private async Task<List<Claim>> GetClaims(User user)
         {
             var claims = new List<Claim>
             {
@@ -42,10 +42,15 @@ namespace SchoolProject.Service.Implementations
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(nameof(UserClaimModel.PhoneNumber), user.PhoneNumber)
             };
+
+            var roles = await userManager.GetRolesAsync(user);
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
+
+            var userClaims = await userManager.GetClaimsAsync(user);
+            claims.AddRange(userClaims);
 
             return claims;
         }
@@ -58,12 +63,11 @@ namespace SchoolProject.Service.Implementations
 
         private async Task<(JwtSecurityToken, string)> GenerateJwtToken(User user)
         {
-            var roles = await userManager.GetRolesAsync(user);
             var jwtToken = new JwtSecurityToken
             (
                 issuer: jwtSettings.Issuer,
                 audience: jwtSettings.Audience,
-                claims: GetClaims(user, roles),
+                claims: await GetClaims(user),
                 expires: DateTime.Now.AddDays(jwtSettings.AccessTokenExpireDate),
                 signingCredentials: GetSigningCredentials()
             );
