@@ -46,6 +46,10 @@
             public const string SignIn = Prefix + "/SignIn";
             public const string RefreshToken = Prefix + "/RefreshToken";
             public const string ValidateToken = Prefix + "/ValidateToken";
+            public const string ConfirmEmail = "/Api/Authentication/ConfirmEmail";
+            public const string SendResetPassword = Prefix + "/SendResetPassword";
+            public const string ConfirmResetPassword = Prefix + "/ConfirmResetPassword";
+            public const string ResetPassword = Prefix + "/ResetPassword";
         }
 
         public static class AuthorizationRouting
@@ -62,6 +66,12 @@
             public const string EditUserRoles = Role + "/EditUserRoles";
             public const string ManageUserClaims = Claim + "/ManageUserClaims" + "/{userId}";
             public const string EditUserClaims = Claim + "/EditUserClaims";
+        }
+
+        public static class EmailRouting
+        {
+            public const string Prefix = Rule + "Email";
+            public const string SendEmail = Prefix + "/SendEmail";
         }
     }
 }

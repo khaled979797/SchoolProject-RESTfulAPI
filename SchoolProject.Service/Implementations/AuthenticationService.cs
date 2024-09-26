@@ -5,6 +5,7 @@ using SchoolProject.Data.Entities.Identity;
 using SchoolProject.Data.Helpers;
 using SchoolProject.Data.Responses;
 using SchoolProject.Infrastructure.Abstracts;
+using SchoolProject.Infrastructure.Data;
 using SchoolProject.Service.Abstracts;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,17 +18,22 @@ namespace SchoolProject.Service.Implementations
     {
         #region Fields
         private readonly JwtSettings jwtSettings;
+        private readonly IEmailService emailService;
         private readonly IRefreshTokenRepository refreshTokenRepository;
         private readonly UserManager<User> userManager;
+        private readonly AppDbContext context;
         #endregion
 
         #region Constructor
         public AuthenticationService(JwtSettings jwtSettings,
-            IRefreshTokenRepository refreshTokenRepository, UserManager<User> userManager)
+            IRefreshTokenRepository refreshTokenRepository, UserManager<User> userManager,
+            IEmailService emailService, AppDbContext context)
         {
             this.jwtSettings = jwtSettings;
+            this.emailService = emailService;
             this.refreshTokenRepository = refreshTokenRepository;
             this.userManager = userManager;
+            this.context = context;
         }
         #endregion
 
@@ -193,6 +199,75 @@ namespace SchoolProject.Service.Implementations
             }
             var expiredDate = userRefreshToken.ExpireDate;
             return (userId, expiredDate);
+        }
+
+        public async Task<string> ConfirmEmail(int? userId, string? code)
+        {
+            if (userId == null || code == null) return "ErrorWhenConfirmEmail";
+
+            var user = await userManager.FindByIdAsync(userId.ToString());
+            var confirmEmail = await userManager.ConfirmEmailAsync(user, code);
+            if (!confirmEmail.Succeeded) return "ErrorWhenConfirmEmail";
+            return "Success";
+        }
+
+        public async Task<string> SendResetPasswordCode(string email)
+        {
+            var transact = await context.Database.BeginTransactionAsync();
+            try
+            {
+                var user = await userManager.FindByEmailAsync(email);
+                if (user == null) return "UserNotFound";
+
+                Random generator = new Random();
+                var randomNumber = generator.Next(0, 1000000).ToString("D6");
+                user.Code = randomNumber;
+                var updateResult = await userManager.UpdateAsync(user);
+                if (!updateResult.Succeeded) return "ErrorInUpdateUser";
+
+                var message = $"Code To Reset Password: {randomNumber}";
+                await emailService.SendEmail(email, message, "Reset Password");
+                await transact.CommitAsync();
+                return "Success";
+            }
+            catch
+            {
+                await transact.RollbackAsync();
+                return "Failed";
+            }
+        }
+
+        public async Task<string> ConfirmResetPassword(string code, string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null) return "UserNotFound";
+
+            var userCode = user.Code;
+            if (userCode == code) return "Success";
+            return "Failed";
+        }
+
+        public async Task<string> ResetPassword(string email, string password)
+        {
+            var transact = await context.Database.BeginTransactionAsync();
+            try
+            {
+                var user = await userManager.FindByEmailAsync(email);
+                if (user == null) return "UserNotFound";
+
+                await userManager.RemovePasswordAsync(user);
+                if (!await userManager.HasPasswordAsync(user))
+                {
+                    await userManager.AddPasswordAsync(user, password);
+                }
+                await transact.CommitAsync();
+                return "Success";
+            }
+            catch
+            {
+                await transact.RollbackAsync();
+                return "Failed";
+            }
         }
         #endregion
     }
