@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -11,12 +10,6 @@ namespace SchoolProject.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Code",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "UsersRefreshTokens",
                 columns: table => new
@@ -54,10 +47,6 @@ namespace SchoolProject.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "UsersRefreshTokens");
-
-            migrationBuilder.DropColumn(
-                name: "Code",
-                table: "AspNetUsers");
         }
     }
 }

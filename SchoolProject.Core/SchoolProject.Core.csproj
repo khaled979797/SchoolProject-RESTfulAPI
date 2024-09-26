@@ -32,6 +32,9 @@
     <Folder Include="Features\Department\Commands\Handlers\" />
     <Folder Include="Features\Department\Commands\Models\" />
     <Folder Include="Features\Department\Commands\Validators\" />
+    <Folder Include="Features\Email\Queries\Handlers\" />
+    <Folder Include="Features\Email\Queries\Models\" />
+    <Folder Include="Features\Email\Queries\Responses\" />
     <Folder Include="Mapping\Departments\CommandMapping\" />
   </ItemGroup>
 
