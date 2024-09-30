@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
+using SchoolProject.Data.Entities.Procedures;
+using SchoolProject.Data.Entities.Views;
 using SchoolProject.Infrastructure.Abstracts;
+using SchoolProject.Infrastructure.Abstracts.Procedures;
+using SchoolProject.Infrastructure.Abstracts.Views;
 using SchoolProject.Service.Abstracts;
 
 namespace SchoolProject.Service.Implementations
@@ -9,12 +13,18 @@ namespace SchoolProject.Service.Implementations
     {
         #region Fields
         private readonly IDepartmentRepository departmentRepository;
+        private readonly IViewRepository<ViewDepartment> viewDepartmentRepository;
+        private readonly IDepartmentStudentcountProcRepository departmentStudentcountProc;
         #endregion
 
         #region Constructor
-        public DepartmentService(IDepartmentRepository departmentRepository)
+        public DepartmentService(IDepartmentRepository departmentRepository,
+            IViewRepository<ViewDepartment> viewDepartmentRepository,
+            IDepartmentStudentcountProcRepository departmentStudentcountProc)
         {
             this.departmentRepository = departmentRepository;
+            this.viewDepartmentRepository = viewDepartmentRepository;
+            this.departmentStudentcountProc = departmentStudentcountProc;
         }
         #endregion
 
@@ -27,6 +37,16 @@ namespace SchoolProject.Service.Implementations
                 .Include(x => x.Instructors).FirstOrDefaultAsync();
 
             return department;
+        }
+
+        public async Task<IReadOnlyCollection<DepartmentStudentcountProc>> GetDepartmentStudentcountProc(DepartmentStudentcountProcParameters parameters)
+        {
+            return await departmentStudentcountProc.GetDepartmentStudentcountProc(parameters);
+        }
+
+        public async Task<List<ViewDepartment>> GetViewDepartmentDataAsync()
+        {
+            return await viewDepartmentRepository.GetTableNoTracking().ToListAsync();
         }
 
         public async Task<bool> IsDepartmentIdExist(int id)

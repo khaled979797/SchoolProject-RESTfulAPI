@@ -13,6 +13,7 @@ using SchoolProject.Infrastructure;
 using SchoolProject.Infrastructure.Data;
 using SchoolProject.Infrastructure.Seeder;
 using SchoolProject.Service;
+using Serilog;
 using System.Globalization;
 
 namespace SchoolProject.Api
@@ -84,6 +85,12 @@ namespace SchoolProject.Api
 
             builder.Services.AddTransient<AuthFilter>();
 
+            #region Serilog
+            Log.Logger = new LoggerConfiguration()
+                          .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+            builder.Services.AddSerilog();
+            #endregion
+
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())
@@ -111,6 +118,8 @@ namespace SchoolProject.Api
             app.UseHttpsRedirection();
 
             app.UseCors(Cors);
+
+            app.UseStaticFiles();
 
             app.UseAuthentication();
 

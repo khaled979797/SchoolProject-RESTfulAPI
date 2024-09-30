@@ -7,10 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Instructor\**" />
     <Compile Remove="Features\User\**" />
     <Compile Remove="Mapping\Authorization\**" />
+    <EmbeddedResource Remove="Features\Instructor\**" />
     <EmbeddedResource Remove="Features\User\**" />
     <EmbeddedResource Remove="Mapping\Authorization\**" />
+    <None Remove="Features\Instructor\**" />
     <None Remove="Features\User\**" />
     <None Remove="Mapping\Authorization\**" />
   </ItemGroup>
@@ -21,11 +24,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="FluentValidation" Version="11.9.2" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
-    <PackageReference Include="MediatR" Version="12.4.0" />
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.8" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolProject.Data.Entities;
 using SchoolProject.Data.Entities.Identity;
+using SchoolProject.Data.Entities.Views;
 using System.Reflection;
 
 namespace SchoolProject.Infrastructure.Data
 {
     public class AppDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
+        private readonly IEncryptionProvider encryptionProvider;
         public DbSet<Department> Departments { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Subjects> Subjects { get; set; }
@@ -20,7 +22,10 @@ namespace SchoolProject.Infrastructure.Data
         public DbSet<User> User { get; set; }
         public DbSet<UserRefreshToken> UsersRefreshTokens { get; set; }
 
-        private readonly IEncryptionProvider encryptionProvider;
+        #region Views
+        public DbSet<ViewDepartment> ViewDepartment { get; set; }
+        #endregion
+
         public AppDbContext() { }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

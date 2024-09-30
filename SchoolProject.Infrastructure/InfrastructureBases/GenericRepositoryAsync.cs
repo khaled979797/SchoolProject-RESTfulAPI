@@ -1,10 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using SchoolProject.Infrastructure.Data;
 
 namespace SchoolProject.Infrastructure.InfrastructureBases
@@ -13,14 +8,14 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
     {
         #region Vars / Props
 
-        protected readonly AppDbContext _dbContext;
+        protected readonly AppDbContext context;
 
         #endregion
 
         #region Constructor(s)
-        public GenericRepositoryAsync(AppDbContext dbContext)
+        public GenericRepositoryAsync(AppDbContext context)
         {
-            _dbContext = dbContext;
+            this.context = context;
         }
 
         #endregion
@@ -34,54 +29,54 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
         public virtual async Task<T> GetByIdAsync(int id)
         {
 
-            return await _dbContext.Set<T>().FindAsync(id);
+            return await context.Set<T>().FindAsync(id);
         }
 
 
         public IQueryable<T> GetTableNoTracking()
         {
-            return _dbContext.Set<T>().AsNoTracking().AsQueryable();
+            return context.Set<T>().AsNoTracking().AsQueryable();
         }
 
 
         public virtual async Task AddRangeAsync(ICollection<T> entities)
         {
-            await _dbContext.Set<T>().AddRangeAsync(entities);
-            await _dbContext.SaveChangesAsync();
+            await context.Set<T>().AddRangeAsync(entities);
+            await context.SaveChangesAsync();
 
         }
         public virtual async Task<T> AddAsync(T entity)
         {
-            await _dbContext.Set<T>().AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
+            await context.Set<T>().AddAsync(entity);
+            await context.SaveChangesAsync();
 
             return entity;
         }
 
         public virtual async Task UpdateAsync(T entity)
         {
-            _dbContext.Set<T>().Update(entity);
-            await _dbContext.SaveChangesAsync();
+            context.Set<T>().Update(entity);
+            await context.SaveChangesAsync();
 
         }
 
         public virtual async Task DeleteAsync(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
+            context.Set<T>().Remove(entity);
+            await context.SaveChangesAsync();
         }
         public virtual async Task DeleteRangeAsync(ICollection<T> entities)
         {
             foreach (var entity in entities)
             {
-                _dbContext.Entry(entity).State = EntityState.Deleted;
+                context.Entry(entity).State = EntityState.Deleted;
             }
-            await _dbContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()
         {
-            await _dbContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
 
@@ -90,31 +85,46 @@ namespace SchoolProject.Infrastructure.InfrastructureBases
         {
 
 
-            return _dbContext.Database.BeginTransaction();
+            return context.Database.BeginTransaction();
         }
 
         public void Commit()
         {
-            _dbContext.Database.CommitTransaction();
+            context.Database.CommitTransaction();
 
         }
 
         public void RollBack()
         {
-            _dbContext.Database.RollbackTransaction();
+            context.Database.RollbackTransaction();
 
         }
 
         public IQueryable<T> GetTableAsTracking()
         {
-            return _dbContext.Set<T>().AsQueryable();
+            return context.Set<T>().AsQueryable();
 
         }
 
         public virtual async Task UpdateRangeAsync(ICollection<T> entities)
         {
-            _dbContext.Set<T>().UpdateRange(entities);
-            await _dbContext.SaveChangesAsync();
+            context.Set<T>().UpdateRange(entities);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await context.Database.BeginTransactionAsync();
+        }
+
+        public async Task CommitAsync()
+        {
+            await context.Database.CommitTransactionAsync();
+        }
+
+        public async Task RollBackAsync()
+        {
+            await context.Database.RollbackTransactionAsync();
         }
         #endregion
     }
