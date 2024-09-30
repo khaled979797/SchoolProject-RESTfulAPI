@@ -338,6 +338,9 @@ namespace SchoolProject.Infrastructure.Migrations
                     b.Property<string>("ENameEn")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Position")
                         .HasColumnType("nvarchar(max)");
 
@@ -439,6 +442,23 @@ namespace SchoolProject.Infrastructure.Migrations
                     b.HasKey("SubID");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("SchoolProject.Data.Entities.Views.ViewDepartment", b =>
+                {
+                    b.Property<int>("DID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DNameAr")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DNameEn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StudentCount")
+                        .HasColumnType("int");
+
+                    b.ToTable("ViewDepartment");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

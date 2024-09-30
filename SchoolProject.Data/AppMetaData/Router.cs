@@ -27,6 +27,8 @@
             public const string Edit = Prefix + "/Edit";
             public const string Delete = Prefix + SingleRoute;
             public const string Paginated = Prefix + "/Paginated";
+            public const string GetDepartmentStudentsCount = Prefix + "/GetDepartmentStudentsCount";
+            public const string GetDepartmentStudentsCountById = Prefix + "/GetDepartmentStudentsCountById" + SingleRoute;
         }
 
         public static class UserRouting
@@ -72,6 +74,13 @@
         {
             public const string Prefix = Rule + "Email";
             public const string SendEmail = Prefix + "/SendEmail";
+        }
+
+        public static class InstructorRouting
+        {
+            public const string Prefix = Rule + "Instructor";
+            public const string GetSalarySummation = Prefix + "/GetSalarySummation";
+            public const string AddInstructor = Prefix + "/AddInstructor";
         }
     }
 }
