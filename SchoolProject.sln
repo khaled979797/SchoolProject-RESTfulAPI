@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolProject.Api", "SchoolProject.Api\SchoolProject.Api.csproj", "{8BA3C26D-A671-4142-A44F-5BED24AADAAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Api", "SchoolProject.Api\SchoolProject.Api.csproj", "{8BA3C26D-A671-4142-A44F-5BED24AADAAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolProject.Data", "SchoolProject.Data\SchoolProject.Data.csproj", "{77D71299-2F5A-407B-99FE-5A3BF17F3DCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Data", "SchoolProject.Data\SchoolProject.Data.csproj", "{77D71299-2F5A-407B-99FE-5A3BF17F3DCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolProject.Infrastructure", "SchoolProject.Infrastructure\SchoolProject.Infrastructure.csproj", "{D35B73EA-94F0-4FBF-8607-3A0922A59880}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Infrastructure", "SchoolProject.Infrastructure\SchoolProject.Infrastructure.csproj", "{D35B73EA-94F0-4FBF-8607-3A0922A59880}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolProject.Service", "SchoolProject.Service\SchoolProject.Service.csproj", "{0C89C123-ACB6-4FFA-8841-84F30332411C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Service", "SchoolProject.Service\SchoolProject.Service.csproj", "{0C89C123-ACB6-4FFA-8841-84F30332411C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolProject.Core", "SchoolProject.Core\SchoolProject.Core.csproj", "{18D39690-53CD-49D4-AD09-F88469132D43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolProject.Core", "SchoolProject.Core\SchoolProject.Core.csproj", "{18D39690-53CD-49D4-AD09-F88469132D43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolProject.XUnitTest", "SchoolProject.XUnitTest\SchoolProject.XUnitTest.csproj", "{47057ADD-CFA0-4CE5-9CEF-519E32E6344B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{18D39690-53CD-49D4-AD09-F88469132D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18D39690-53CD-49D4-AD09-F88469132D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18D39690-53CD-49D4-AD09-F88469132D43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47057ADD-CFA0-4CE5-9CEF-519E32E6344B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47057ADD-CFA0-4CE5-9CEF-519E32E6344B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47057ADD-CFA0-4CE5-9CEF-519E32E6344B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47057ADD-CFA0-4CE5-9CEF-519E32E6344B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
